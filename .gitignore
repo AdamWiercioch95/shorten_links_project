@@ -1,5 +1,8 @@
 .vscode
 .idea
+.env
 
 venv
 **/*.pyc
+
+db.sqlite3
