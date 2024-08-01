@@ -1,0 +1,33 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+
+    {% block styles %}
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% endblock %}
+
+</head>
+<body>
+
+<header class="main-header">
+    <div class="container">
+            <a href="/" class="nav-button">Strona główna</a>
+        <nav class="nav-buttons">
+            Witaj {{ user }}
+            <a href="{% url 'register' %}" class="nav-button">Zarejestruj</a>
+            <a href="#" class="nav-button">Zaloguj</a>
+            <a href="#" class="nav-button">Wyloguj</a>
+        </nav>
+    </div>
+</header>
+
+{% block content %}
+{% endblock %}
+
+</body>
+</html>

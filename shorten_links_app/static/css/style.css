@@ -40,7 +40,7 @@ body {
     background: #2a3b4e;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     border-radius: 8px;
-    margin: 50px auto 0;
+    margin: 50px auto;
 }
 
 /* Nagłówki */
@@ -150,3 +150,58 @@ a:hover {
 .link-list button:hover {
     background-color: #c9302c;
 }
+
+/* Formularz rejestracji */
+.registration-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Style dla etykiet formularza */
+.registration-form label {
+    display: block;
+    color: #d1d9e6;
+    margin-bottom: 5px;
+}
+
+/* Style dla pól formularza */
+.registration-form input[type="text"],
+.registration-form input[type="password"],
+.registration-form input[type="email"] {
+    padding: 10px;
+    border: 1px solid #3a4a5e;
+    border-radius: 4px;
+    background-color: #2a3b4e;
+    color: #d1d9e6;
+    width: 100%;
+}
+
+/* Style dla przycisku submit */
+.submit-button {
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #4a90e2;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submit-button:hover {
+    background-color: #357abd;
+}
+
+/* Style dla błędów formularza */
+.registration-form .errorlist {
+    color: #d9534f;
+    margin: 2px auto;
+    list-style-type: none;
+    padding: 0;
+}
+
+.registration-form .errorlist li {
+    margin: 2px auto;
+}
+
+
