@@ -1,4 +1,4 @@
-from django.contrib.auth import login, logout
+from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.views import View
@@ -49,7 +49,19 @@ class LoginView(View):
         return render(request, 'form.html', context)
 
     def post(self, request):
-        pass
+        form = LoginForm(data=request.POST)
+
+        if form.is_valid():
+            user = User.objects.get(username=form.cleaned_data['username'])
+            login(request, user)
+            return redirect('/')
+
+        context = {
+            'form': form,
+            'title': 'Logowanie',
+            'button_title': 'Zaloguj',
+        }
+        return render(request, 'form.html', context)
 
 
 class LogoutView(View):
