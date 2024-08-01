@@ -1,4 +1,5 @@
 from django import forms
+
 from django.contrib.auth.models import User
 
 
@@ -31,4 +32,21 @@ class RegisterForm(forms.ModelForm):
         return email
 
 
+class LoginForm(forms.Form):
+    username = forms.CharField(label='Nazwa użytkownika')
+    password = forms.CharField(label='Hasło', widget=forms.PasswordInput)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        username = cleaned_data.get('username')
+        password = cleaned_data.get('password')
+
+        try:
+            user = User.objects.get(username=username)
+            if not user.check_password(password):
+                raise forms.ValidationError('Niepoprawne dane logowania')
+        except User.DoesNotExist:
+            raise forms.ValidationError('Niepoprawne dane logowania')
+
+        return cleaned_data
 
