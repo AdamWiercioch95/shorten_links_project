@@ -20,8 +20,8 @@
         <nav class="nav-buttons">
             Witaj {{ user }}
             <a href="{% url 'register' %}" class="nav-button">Zarejestruj</a>
-            <a href="#" class="nav-button">Zaloguj</a>
-            <a href="#" class="nav-button">Wyloguj</a>
+            <a href="{% url 'login' %}" class="nav-button">Zaloguj</a>
+            <a href="{% url 'logout' %}" class="nav-button">Wyloguj</a>
         </nav>
     </div>
 </header>
