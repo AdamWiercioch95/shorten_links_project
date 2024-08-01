@@ -1,3 +1,4 @@
+from django.contrib.auth import login
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.views import View
@@ -25,7 +26,8 @@ class RegisterView(View):
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
             email = form.cleaned_data['email']
-            User.objects.create_user(username=username, password=password, email=email)
+            user = User.objects.create_user(username=username, password=password, email=email)
+            login(request, user)
             return redirect('/')
         else:
             context = {
