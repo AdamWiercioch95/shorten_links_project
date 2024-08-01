@@ -1,4 +1,5 @@
-from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth import login, logout
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.views import View
@@ -64,7 +65,7 @@ class LoginView(View):
         return render(request, 'form.html', context)
 
 
-class LogoutView(View):
+class LogoutView(LoginRequiredMixin, View):
     def get(self, request):
         logout(request)
         return redirect('landing_page')

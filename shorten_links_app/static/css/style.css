@@ -33,6 +33,15 @@ body {
     background-color: #357abd;
 }
 
+.welcome-message {
+    color: #d1d9e6;
+    font-weight: bold;
+    padding: 8px 15px;
+    background-color: #2a3b4e;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
 /* Container */
 .container {
     width: 40%;
