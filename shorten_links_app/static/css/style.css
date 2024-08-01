@@ -1,0 +1,152 @@
+/* Ogólne stylizacje */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #1c2733;
+    color: #d1d9e6;
+}
+
+/* Header */
+.main-header .container {
+    display: flex;
+    width: 80%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.nav-button {
+    padding: 8px 15px;
+    border-radius: 4px;
+    background-color: #4a90e2;
+    color: white;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.nav-button:hover {
+    background-color: #357abd;
+}
+
+/* Container */
+.container {
+    width: 40%;
+    padding: 20px;
+    background: #2a3b4e;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    margin: 50px auto 0;
+}
+
+/* Nagłówki */
+h1 {
+    text-align: center;
+    color: #d1d9e6;
+}
+
+/* Formularze */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+label {
+    color: #d1d9e6;
+}
+
+input[type="url"] {
+    padding: 10px;
+    border: 1px solid #3a4a5e;
+    border-radius: 4px;
+    background-color: #2a3b4e;
+    color: #d1d9e6;
+}
+
+input[type="submit"] {
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #4a90e2;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+input[type="submit"]:hover {
+    background-color: #357abd;
+}
+
+/* Linki */
+a {
+    color: #4a90e2;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Stylizacja głównego formularza do skracania linków */
+.shortener-form {
+    display: flex;
+    gap: 10px;
+}
+
+.shortener-form input[type="url"] {
+    flex-grow: 1;
+}
+
+.shortener-form input[type="submit"] {
+    flex-shrink: 0;
+}
+
+/* Stylizacja listy linków */
+.link-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.link-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #3a4a5e;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    word-wrap: break-word;
+    word-break: break-all;
+}
+
+.link-list a {
+    color: #4a90e2;
+    word-wrap: break-word;
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.link-list button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #d9534f;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.link-list button:hover {
+    background-color: #c9302c;
+}

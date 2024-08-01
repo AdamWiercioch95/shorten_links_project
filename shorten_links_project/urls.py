@@ -16,7 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from shorten_links_app import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', views.LandingPageView.as_view(), name='landing_page'),
 ]
