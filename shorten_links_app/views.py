@@ -3,12 +3,33 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.views import View
-from django.views.generic import TemplateView
-from shorten_links_app.forms import RegisterForm, LoginForm
+from shorten_links_app.forms import RegisterForm, LoginForm, LinkForm
+from shorten_links_app.models import Link
 
 
-class LandingPageView(TemplateView):
-    template_name = 'landing_page.html'
+class LandingPageView(View):
+    def get(self, request):
+        form = LinkForm()
+        context = {'form': form}
+
+        if request.user.is_authenticated:
+            links = Link.objects.filter(user=request.user)
+            context['links'] = links
+
+        return render(request, 'landing_page.html', context)
+
+    def post(self, request):
+        if not request.user.is_authenticated:
+            return redirect('login')
+        form = LinkForm(request.POST)
+        if form.is_valid():
+            pass
+        context = {'form': form}
+        if request.user.is_authenticated:
+            links = Link.objects.filter(user=request.user)
+            context['links'] = links
+
+        return render(request, 'landing_page.html', context)
 
 
 class RegisterView(View):

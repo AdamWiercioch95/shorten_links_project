@@ -2,6 +2,8 @@ from django import forms
 
 from django.contrib.auth.models import User
 
+from shorten_links_app.models import Link
+
 
 class RegisterForm(forms.ModelForm):
     username = forms.CharField(label='Nazwa użytkownika')
@@ -49,4 +51,14 @@ class LoginForm(forms.Form):
             raise forms.ValidationError('Niepoprawne dane logowania')
 
         return cleaned_data
+
+
+class LinkForm(forms.ModelForm):
+    class Meta:
+        model = Link
+        fields = ['original_url']
+        labels = {'original_url': 'Link do skrócenia'}
+        widgets = {
+            'original_url': forms.URLInput(attrs={'placeholder': 'Wprowadź link do skrócenia'})
+        }
 

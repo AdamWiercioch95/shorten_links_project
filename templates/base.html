@@ -24,7 +24,7 @@
         <a href="{% url 'register' %}">Zarejestruj</a>
         <a href="{% url 'login' %}">Zaloguj</a>
     {% else %}
-            Witaj {{ user }}
+            <p>Witaj {{ user }}</p>
             <a href="{% url 'logout' %}">Wyloguj</a>
     {% endif %}
     </div>
