@@ -1,3 +1,6 @@
+import string
+import random
+
 from django.contrib.auth import login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
@@ -5,6 +8,10 @@ from django.shortcuts import render, redirect
 from django.views import View
 from shorten_links_app.forms import RegisterForm, LoginForm, LinkForm
 from shorten_links_app.models import Link
+
+
+def generate_short_path():
+    return ''.join(random.choices(string.ascii_letters + string.digits, k=6))
 
 
 class LandingPageView(View):
@@ -22,8 +29,14 @@ class LandingPageView(View):
         if not request.user.is_authenticated:
             return redirect('login')
         form = LinkForm(request.POST)
+
         if form.is_valid():
-            pass
+            link = form.save(commit=False)
+            link.shortened_path = generate_short_path()
+            link.user = request.user
+            link.save()
+            # return redirect('link_detail', pk=link.pk)
+
         context = {'form': form}
         if request.user.is_authenticated:
             links = Link.objects.filter(user=request.user)
