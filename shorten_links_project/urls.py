@@ -25,4 +25,6 @@ urlpatterns = [
     path('login/', views.LoginView.as_view(), name='login'),
     path('logout/', views.LogoutView.as_view(), name='logout'),
     path('my_links/<int:link_id>', views.MyLinksView.as_view(), name='my_links'),
+    path('delete_link/<int:link_id>', views.DeleteLinkView.as_view(), name='delete_link'),
+    path('<int:link_id>', views.RedirectView.as_view(), name='redirect'),
 ]

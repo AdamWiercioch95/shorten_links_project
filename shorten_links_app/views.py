@@ -1,11 +1,7 @@
-import string
-import random
-from sqlite3 import IntegrityError
-
 from django.contrib.auth import login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from shorten_links_app.forms import RegisterForm, LoginForm, LinkForm
 from shorten_links_app.models import Link
@@ -40,17 +36,6 @@ class LandingPageView(View):
             context['links'] = links
 
         return render(request, 'landing_page.html', context)
-
-
-class MyLinksView(LoginRequiredMixin, View):
-    def get(self, request, link_id):
-        try:
-            link = Link.objects.get(id=link_id, user=request.user)
-        except Link.DoesNotExist:
-            return redirect('/')
-
-        context = {'link': link}
-        return render(request, 'link_details.html', context)
 
 
 class RegisterView(View):
@@ -111,4 +96,28 @@ class LogoutView(LoginRequiredMixin, View):
     def get(self, request):
         logout(request)
         return redirect('landing_page')
+
+
+class MyLinksView(LoginRequiredMixin, View):
+    def get(self, request, link_id):
+        try:
+            link = Link.objects.get(id=link_id, user=request.user)
+        except Link.DoesNotExist:
+            return redirect('/')
+
+        context = {'link': link}
+        return render(request, 'link_details.html', context)
+
+
+class DeleteLinkView(LoginRequiredMixin, View):
+    def post(self, request, link_id):
+        link = get_object_or_404(Link, id=link_id, user=request.user)
+        link.delete()
+        return redirect('landing_page')
+
+
+class RedirectView(View):
+    def get(self, request, link_id):
+        link = get_object_or_404(Link, id=link_id, user=request.user)
+        return redirect(link.original_url)
 
