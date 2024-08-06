@@ -1,5 +1,6 @@
 import string
 import random
+from sqlite3 import IntegrityError
 
 from django.contrib.auth import login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -8,10 +9,6 @@ from django.shortcuts import render, redirect
 from django.views import View
 from shorten_links_app.forms import RegisterForm, LoginForm, LinkForm
 from shorten_links_app.models import Link
-
-
-def generate_short_path():
-    return ''.join(random.choices(string.ascii_letters + string.digits, k=6))
 
 
 class LandingPageView(View):
@@ -28,14 +25,17 @@ class LandingPageView(View):
     def post(self, request):
         if not request.user.is_authenticated:
             return redirect('login')
+
         form = LinkForm(request.POST)
 
         if form.is_valid():
-            link = form.save(commit=False)
-            link.shortened_path = generate_short_path()
-            link.user = request.user
-            link.save()
-            # return redirect('link_detail', pk=link.pk)
+            try:
+                link = form.save(commit=False)
+                link.user = request.user
+                link.save()
+                return redirect('my_links', link.id)
+            except IntegrityError:
+                form.add_error('original_url', 'This link already exists.')
 
         context = {'form': form}
         if request.user.is_authenticated:
@@ -43,6 +43,17 @@ class LandingPageView(View):
             context['links'] = links
 
         return render(request, 'landing_page.html', context)
+
+
+class MyLinksView(LoginRequiredMixin, View):
+    def get(self, request, link_id):
+        try:
+            link = Link.objects.get(id=link_id, user=request.user)
+        except Link.DoesNotExist:
+            return redirect('/')
+
+        context = {'link': link}
+        return render(request, 'link_details.html', context)
 
 
 class RegisterView(View):
