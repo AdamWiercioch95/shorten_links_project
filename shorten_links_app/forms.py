@@ -1,6 +1,7 @@
 from django import forms
 
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 
 from shorten_links_app.models import Link
 
@@ -61,4 +62,12 @@ class LinkForm(forms.ModelForm):
         widgets = {
             'original_url': forms.URLInput(attrs={'placeholder': 'Wprowadź link do skrócenia'})
         }
+
+    def clean_original_url(self):
+        original_url = self.cleaned_data.get('original_url')
+
+        if Link.objects.filter(original_url=original_url).exists():
+            raise ValidationError('Podany link już jest skrócony.')
+
+        return original_url
 

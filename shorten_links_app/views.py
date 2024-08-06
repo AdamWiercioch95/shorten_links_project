@@ -29,13 +29,10 @@ class LandingPageView(View):
         form = LinkForm(request.POST)
 
         if form.is_valid():
-            try:
-                link = form.save(commit=False)
-                link.user = request.user
-                link.save()
-                return redirect('my_links', link.id)
-            except IntegrityError:
-                form.add_error('original_url', 'This link already exists.')
+            link = form.save(commit=False)
+            link.user = request.user
+            link.save()
+            return redirect('my_links', link.id)
 
         context = {'form': form}
         if request.user.is_authenticated:
