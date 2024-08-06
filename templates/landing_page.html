@@ -6,28 +6,30 @@
 {% block content %}
     <div class="centered-content">
         <h1>Skróć link</h1>
-        <form>
-            <label for="url">Link do skrócenia:</label>
-            <input type="url" id="url" name="url" placeholder="Wprowadź link do skrócenia">
-            <input type="submit" value="Skróć link">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Skróć link</button>
         </form>
     </div>
     
+    {% if user.is_authenticated %}
     <div>
         <h1>Moje linki</h1>
         <ul>
-            <li>
-                <a href="https://www.google.com/search?q=olimpiada+2024&sca_esv=3f99e2d73d683bd3&sca_upv=1&sxsrf=ADLYWIJMTIceD8cusEgl_JHB6f13b3EsMg%3A1722435694572&source=hp&ei=bkiqZrPSINCRxc8PsP-7oQg&iflsig=AL9hbdgAAAAAZqpWfsHU8Dax4_4vC1QrNuKq8IqiDrha&oq=olimpia&gs_lp=Egdnd3Mtd2l6IgdvbGltcGlhKgIIADILEAAYgAQYsQMYgwEyDhAAGIAEGLEDGIMBGIoFMg4QABiABBixAxiDARiKBTILEAAYgAQYsQMYgwEyCxAAGIAEGLEDGIMBMgsQABiABBixAxiDATIOEAAYgAQYsQMYgwEYigUyDhAAGIAEGLEDGIMBGIoFMg4QABiABBixAxiDARiKBTIEEAAYA0iqIlD8Elj6G3ABeACQAQCYAWSgAf8EqgEDNi4xuAEDyAEA-AEBmAIIoALIBagCCsICBxAjGCcY6gLCAhAQLhjHARgnGOoCGI4FGK8BwgIKECMYgAQYJxiKBcICBBAjGCfCAhEQLhiABBixAxjRAxiDARjHAcICEBAAGIAEGLEDGEMYgwEYigXCAhYQLhiABBixAxjRAxhDGIMBGMcBGIoFwgIFEAAYgATCAgsQLhiABBjHARivAZgDFpIHAzUuM6AH4zM&sclient=gws-wiz" target="_blank">
-                    https://www.google.com/search?q=olimpiada+2024&sca_esv=3f99e2d73d683bd3&sca_upv=1&sxsrf=ADLYWIJMTIceD8cusEgl_JHB6f13b3EsMg%3A1722435694572&source=hp&ei=bkiqZrPSINCRxc8PsP-7oQg&iflsig=AL9hbdgAAAAAZqpWfsHU8Dax4_4vC1QrNuKq8IqiDrha&oq=olimpia&gs_lp=Egdnd3Mtd2l6IgdvbGltcGlhKgIIADILEAAYgAQYsQMYgwEyDhAAGIAEGLEDGIMBGIoFMg4QABiABBixAxiDARiKBTILEAAYgAQYsQMYgwEyCxAAGIAEGLEDGIMBMgsQABiABBixAxiDATIOEAAYgAQYsQMYgwEYigUyDhAAGIAEGLEDGIMBGIoFMg4QABiABBixAxiDARiKBTIEEAAYA0iqIlD8Elj6G3ABeACQAQCYAWSgAf8EqgEDNi4xuAEDyAEA-AEBmAIIoALIBagCCsICBxAjGCcY6gLCAhAQLhjHARgnGOoCGI4FGK8BwgIKECMYgAQYJxiKBcICBBAjGCfCAhEQLhiABBixAxjRAxiDARjHAcICEBAAGIAEGLEDGEMYgwEYigXCAhYQLhiABBixAxjRAxhDGIMBGMcBGIoFwgIFEAAYgATCAgsQLhiABBjHARivAZgDFpIHAzUuM6AH4zM&sclient=gws-wiz
-                </a>
-                <button>Usuń</button>
-            </li>
-            <li>
-                <a href="https://www.wp.pl/" target="_blank">
-                    https://www.wp.pl/
-                </a>
-                <button>Usuń</button>
-            </li>
+            {% for link in links %}
+                <li>
+                    <a href="{{ link.original_url }}" target="_blank">{{ link.original_url }}</a>
+                    <a href="{% url 'my_links' link.id %}" style="display: inline;">
+                        <button type="button">Szczegóły</button>
+                    </a>
+                    <form method="get" action="{% url 'delete_link' link.id %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit">Usuń</button>
+                    </form>
+                </li>
+            {% endfor %}
         </ul>
     </div>
+    {% endif %}
 {% endblock %}

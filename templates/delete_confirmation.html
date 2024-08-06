@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{%  load static %}
+
+{% block title %}Potwierdzenie{% endblock %}
+
+{% block content %}
+    <div class="centered-content">
+        <p>Czy na pewno chcesz usunąć ten link</p>
+        <p>{{ link }}</p><br>
+        
+        <a href="{% url 'landing_page' %}">
+            <button type="button">Nie</button>
+        </a>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit">Tak</button>
+        </form>
+    
+    </div>
+{% endblock %}
