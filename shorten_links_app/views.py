@@ -22,12 +22,12 @@ class LandingPageView(View):
         if not request.user.is_authenticated:
             return redirect('login')
 
-        form = LinkForm(request.POST)
+        form = LinkForm(request.POST, user=request.user)
 
         if form.is_valid():
-            link = form.save(commit=False)
-            link.user = request.user
-            link.save()
+            original_url = form.cleaned_data['original_url']
+            link, created = Link.objects.get_or_create(original_url=original_url)
+            link.user.add(request.user)
             return redirect('my_links', link.id)
 
         context = {'form': form}
@@ -120,8 +120,7 @@ class DeleteLinkView(LoginRequiredMixin, View):
         return redirect('landing_page')
 
 
-class RedirectView(View):
+class RedirectView(LoginRequiredMixin, View):
     def get(self, request, link_id):
         link = get_object_or_404(Link, id=link_id, user=request.user)
         return redirect(link.original_url)
-

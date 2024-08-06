@@ -63,11 +63,14 @@ class LinkForm(forms.ModelForm):
             'original_url': forms.URLInput(attrs={'placeholder': 'Wprowadź link do skrócenia'})
         }
 
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super(LinkForm, self).__init__(*args, **kwargs)
+
     def clean_original_url(self):
         original_url = self.cleaned_data.get('original_url')
 
-        if Link.objects.filter(original_url=original_url).exists():
+        if self.user and Link.objects.filter(original_url=original_url, user=self.user).exists():
             raise ValidationError('Podany link już jest skrócony.')
 
         return original_url
-
