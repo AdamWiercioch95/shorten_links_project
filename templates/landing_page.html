@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Skróć link{% endblock %}
+
+{% block content %}
+    <div class="centered-content">
+        <h1>Skróć link</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Skróć link</button>
+        </form>
+    </div>
+    
+    {% if user.is_authenticated %}
+    <div>
+        <h1>Moje linki</h1>
+        <ul>
+            {% for link in links %}
+                <li>
+                    <a href="{{ link.original_url }}" target="_blank">{{ link.original_url }}</a>
+                    <a href="{% url 'my_links' link.id %}" style="display: inline;">
+                        <button type="button">Szczegóły</button>
+                    </a>
+                    <form method="get" action="{% url 'delete_link' link.id %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit">Usuń</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+{% endblock %}

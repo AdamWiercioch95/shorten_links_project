@@ -16,7 +16,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from shorten_links_app import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', views.LandingPageView.as_view(), name='landing_page'),
+    path('register/', views.RegisterView.as_view(), name='register'),
+    path('login/', views.LoginView.as_view(), name='login'),
+    path('logout/', views.LogoutView.as_view(), name='logout'),
+    path('my_links/<int:link_id>', views.MyLinksView.as_view(), name='my_links'),
+    path('delete_link/<int:link_id>', views.DeleteLinkView.as_view(), name='delete_link'),
+    path('<int:link_id>', views.RedirectView.as_view(), name='redirect'),
 ]

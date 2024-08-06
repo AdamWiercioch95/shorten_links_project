@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Szczegóły linku{% endblock %}
+
+{% block content %}
+    <div class="centered-content">
+        <h1>Twój link</h1>
+        <p>{{ link.original_url }}</p>
+    
+        <h1>Krócej</h1>
+        <p>http://localhost:8000/{{ link.id }}/</p>
+    </div>
+{% endblock %}
