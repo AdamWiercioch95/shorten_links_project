@@ -110,6 +110,10 @@ class MyLinksView(LoginRequiredMixin, View):
 
 
 class DeleteLinkView(LoginRequiredMixin, View):
+    def get(self, request, link_id):
+        link = Link.objects.get(id=link_id, user=request.user)
+        return render(request, 'delete_confirmation.html', {'link': link})
+
     def post(self, request, link_id):
         link = get_object_or_404(Link, id=link_id, user=request.user)
         link.delete()
